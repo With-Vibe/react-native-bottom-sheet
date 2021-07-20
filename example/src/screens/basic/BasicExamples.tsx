@@ -19,6 +19,8 @@ const createExampleScreen = ({ type, count = 25 }: ExampleScreenProps) =>
       useState(true);
     //#endregion
 
+    const [top, setTop] = useState(false)
+
     //#region refs
     const bottomSheetRef = useRef<BottomSheet>(null);
     //#endregion
@@ -96,19 +98,30 @@ const createExampleScreen = ({ type, count = 25 }: ExampleScreenProps) =>
           label={enableHandlePanningGestureButtonText}
           onPress={handleEnableHandlePanningGesturePress}
         />
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={1}
-          snapPoints={snapPoints}
-          animationConfigs={animationConfigs}
-          animateOnMount={true}
-          enableContentPanningGesture={enableContentPanningGesture}
-          enableHandlePanningGesture={enableHandlePanningGesture}
-          onChange={handleSheetChange}
-          onAnimate={handleSheetAnimate}
+        <Button
+          label={top ? 'top -> bottom' : 'bottom -> top'}
+          onPress={() => setTop(top => !top)}
+        />
+        <View
+          style={[styles.sheetContainer, top && styles.topContainer]}
+          pointerEvents="box-none"
         >
-          <ContactList key={`${type}.list`} type={type} count={count} />
-        </BottomSheet>
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={snapPoints}
+            animationConfigs={animationConfigs}
+            animateOnMount={true}
+            enableContentPanningGesture={enableContentPanningGesture}
+            enableHandlePanningGesture={enableHandlePanningGesture}
+            onChange={handleSheetChange}
+            onAnimate={handleSheetAnimate}
+          >
+            <View style={[top && styles.topContentContainer]}>
+              <ContactList key={`${type}.list`} type={type} count={count} />
+            </View>
+          </BottomSheet>
+        </View>
       </View>
     );
   });
@@ -118,6 +131,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
   },
+  sheetContainer: {
+    width: '112%',
+    height: '100%',
+    position: 'absolute',
+    flexDirection: 'column',
+  },
+  topContainer: {
+    transform: [{ rotate: '180deg' }],
+  },
+  topContentContainer: {
+    transform: [{ rotate: '180deg' }],
+  }
 });
 
 export const FlatListExampleScreen = createExampleScreen({
