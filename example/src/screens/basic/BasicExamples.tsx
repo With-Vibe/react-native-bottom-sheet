@@ -19,7 +19,7 @@ const createExampleScreen = ({ type, count = 25 }: ExampleScreenProps) =>
       useState(true);
     //#endregion
 
-    const [top, setTop] = useState(false)
+    const [top, setTop] = useState(true)
 
     //#region refs
     const bottomSheetRef = useRef<BottomSheet>(null);

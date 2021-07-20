@@ -1225,9 +1225,11 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
         /**
          * calculate the destination point, using redash.
          */
+
+        // VIBE - MODIFIED TO MAKE TOP SHEET
         const destinationPoint = snapPoint(
           translationY + context.initialPosition,
-          velocityY,
+          -1 * velocityY,
           snapPoints
         );
 
@@ -1782,7 +1784,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
               />
             </BottomSheetInternalProvider>
           </Animated.View>
-          {/* <BottomSheetDebugView
+         {/*  <BottomSheetDebugView
             values={{
               // topInset,
               // bottomInset,
