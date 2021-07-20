@@ -6,14 +6,15 @@ target 'BottomSheetExample' do
   config = use_native_modules!
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => true
+    :hermes_enabled => false
   )
 
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!({ 'Flipper' => '0.79.1', 'Flipper-Folly' => '2.5.3' })
+  use_flipper!({ 'Flipper-Folly' => '2.6.7', 'Flipper' => '0.98.0', 'Flipper-RSocket' => '1.4.3' })
+
   post_install do |installer|
     flipper_post_install(installer)
     installer.pods_project.build_configurations.each do |config|
