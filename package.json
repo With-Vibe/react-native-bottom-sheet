@@ -1,5 +1,5 @@
 {
-  "name": "@gorhom/bottom-sheet",
+  "name": "@vibe/top-sheet",
   "version": "2.3.0",
   "description": "A performant interactive bottom sheet with fully configurable options 🚀",
   "main": "lib/commonjs/index",
