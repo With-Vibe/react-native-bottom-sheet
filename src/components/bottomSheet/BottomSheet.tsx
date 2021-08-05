@@ -1227,7 +1227,7 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
          */
         const destinationPoint = snapPoint(
           translationY + context.initialPosition,
-          velocityY,
+          -1 * velocityY,
           snapPoints
         );
 
