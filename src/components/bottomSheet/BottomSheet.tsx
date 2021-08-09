@@ -688,6 +688,15 @@ const BottomSheetComponent = forwardRef<BottomSheet, BottomSheetProps>(
             onComplete: animateToPositionCompleted,
           });
         }
+
+        /**
+         * Check if there is Negative Infinity value for animatedPosition value
+         */
+         if (isNaN(animatedPosition.value) || animatedPosition.value === Number.NEGATIVE_INFINITY) {
+          const snapPoints = animatedSnapPoints.value;
+          const nextPosition = snapPoints[0];
+          animatedPosition.value = nextPosition;
+        }
       },
       [handleOnAnimate, _providedAnimationConfigs]
     );
