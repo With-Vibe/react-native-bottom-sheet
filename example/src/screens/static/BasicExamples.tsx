@@ -22,6 +22,8 @@ const createExampleScreen = ({ type, count = 20 }: ExampleScreenProps) =>
       setEnableHandlePanningGesture,
     ] = useState(true);
 
+    const [top, setTop] = useState<boolean>(false)
+
     // hooks
     const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -116,18 +118,29 @@ const createExampleScreen = ({ type, count = 20 }: ExampleScreenProps) =>
           style={styles.buttonContainer}
           onPress={handleEnableHandlePanningGesturePress}
         />
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={1}
-          snapPoints={snapPoints}
-          animateOnMount={true}
-          enableContentPanningGesture={enableContentPanningGesture}
-          enableHandlePanningGesture={enableHandlePanningGesture}
-          onChange={handleSheetChange}
-          onAnimate={handleSheetAnimate}
+        <Button
+          label={top ? 'top -> bottom' : 'bottom -> top'}
+          onPress={() => setTop(top => !top)}
+        />
+        <View
+          style={[styles.sheetContainer, top && styles.topContainer]}
+          pointerEvents="box-none"
         >
-          <ContactList key={`${type}.list`} type={type} count={count} />
-        </BottomSheet>
+          <BottomSheet
+            ref={bottomSheetRef}
+            index={1}
+            snapPoints={snapPoints}
+            animateOnMount={true}
+            enableContentPanningGesture={enableContentPanningGesture}
+            enableHandlePanningGesture={enableHandlePanningGesture}
+            onChange={handleSheetChange}
+            onAnimate={handleSheetAnimate}
+          >
+            <View style={[top && styles.topContentContainer]}>
+              <ContactList key={`${type}.list`} type={type} count={count} />
+            </View>
+          </BottomSheet>
+        </View>
       </View>
     );
   });
@@ -136,6 +149,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+  },
+  sheetContainer: {
+    width: '112%',
+    height: '100%',
+    position: 'absolute',
+    flexDirection: 'column',
+  },
+  topContainer: {
+    transform: [{ rotate: '180deg' }],
+  },
+  topContentContainer: {
+    transform: [{ rotate: '180deg' }],
   },
   title: {
     fontSize: 46,

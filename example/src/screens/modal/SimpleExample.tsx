@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
@@ -6,6 +6,7 @@ import ContactListContainer from '../../components/contactListContainer';
 import withModalProvider from '../withModalProvider';
 
 const SimpleExample = () => {
+  const [top, setTop] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
@@ -56,15 +57,23 @@ const SimpleExample = () => {
         style={styles.buttonContainer}
         onPress={handleCollapsePress}
       />
-      <BottomSheetModal
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        animationDuration={250}
-        onDismiss={handleDismiss}
-        onChange={handleChange}
-      >
-        <ContactListContainer title="Modal FlatList" type="FlatList" />
-      </BottomSheetModal>
+      <Button
+        label={top ? 'top -> bottom' : 'bottom -> top'}
+        onPress={() => setTop(top => !top)}
+      />
+      <View style={[styles.sheetContainer, top && styles.topContainer]} pointerEvents="box-none">
+        <BottomSheetModal
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          animationDuration={250}
+          onDismiss={handleDismiss}
+          onChange={handleChange}
+        >
+          <View style={[top && styles.topContentContainer]}>
+            <ContactListContainer title="Modal FlatList" type="FlatList" />
+          </View>
+        </BottomSheetModal>
+      </View>
     </View>
   );
 };
@@ -73,6 +82,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+  },
+  sheetContainer: {
+    width: '112%',
+    height: '100%',
+    position: 'absolute',
+    flexDirection: 'column',
+  },
+  topContainer: {
+    transform: [{ rotate: '180deg' }],
+  },
+  topContentContainer: {
+    transform: [{ rotate: '180deg' }],
   },
   buttonContainer: {
     marginBottom: 6,
