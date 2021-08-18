@@ -130,8 +130,8 @@ export const useTransition = ({
     () =>
       cond(
         eq(currentGesture, GESTURE.CONTENT),
-        contentPanGestureVelocityY,
-        handlePanGestureVelocityY
+        multiply(contentPanGestureVelocityY, -1),
+        multiply(handlePanGestureVelocityY, -1)
       ),
     [contentPanGestureVelocityY, handlePanGestureVelocityY, currentGesture]
   );
